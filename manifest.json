@@ -6,6 +6,6 @@
   "defs": {
     "S_LOGIN": 9,
     "S_PCBANGINVENTORY_DATALIST": 1,
-    "S_PCBANGINVENTORY_DATALIST": 1
+    "C_PCBANGINVENTORY_USE_SLOT": 1
     }
 }
