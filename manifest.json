@@ -3,8 +3,8 @@
     "index.js": "b12a5a3e40e21c7b36f2591ba9c8dc917c86d712fd6279894469deedc8d6f135",
     "module.json": "988c1ec820c3eb76cdd07e2910b21c348f381e6e6dbb7f38f552f0ce267bc5ba"
   },
-	"defs": {
-		"S_LOGIN": 9,
+  "defs": {
+    "S_LOGIN": 9,
     "S_PCBANGINVENTORY_DATALIST": 1,
     "S_PCBANGINVENTORY_DATALIST": 1
     }
