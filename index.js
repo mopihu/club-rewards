@@ -34,8 +34,12 @@ module.exports = function ClubRewards(dispatch) {
   dispatch.hook('S_PCBANGINVENTORY_DATALIST', 1, event => {
     if (event.inventory[3].amount == 1) {
       flame = true
+    } else {
+      flame = true
     }
     if (event.inventory[6].amount == 1) {
+      supply = true
+    } else {
       supply = true
     }
   })
