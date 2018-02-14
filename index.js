@@ -35,12 +35,12 @@ module.exports = function ClubRewards(dispatch) {
     if (event.inventory[3].amount == 1) {
       flame = true
     } else {
-      flame = true
+      flame = false
     }
     if (event.inventory[6].amount == 1) {
       supply = true
     } else {
-      supply = true
+      supply = false
     }
   })
 }
