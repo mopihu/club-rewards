@@ -1,15 +1,38 @@
-const Command = require('command');
+const Command = require('command')
 const config = require('./config.json')
 
 module.exports = function ClubRewards(dispatch) {
   const command = Command(dispatch)
 
-  let playerName = config.name
+  let playerNames = config.names.slice()
+  let delay = config.delay
   let flame = false
   let supply = false
 
   dispatch.hook('S_LOGIN', 9, event => {
-    if (event.name == playerName) {
+    if (playerNames.includes(event.name)) {
+      checkRewards()
+      claimRewards()
+    }
+  })
+
+  function checkRewards() {
+    dispatch.hookOnce('S_PCBANGINVENTORY_DATALIST', 1, event => {
+      if (event.inventory[3].amount == 1) {
+        flame = true
+      } else {
+        flame = false
+      }
+      if (event.inventory[6].amount == 1) {
+        supply = true
+      } else {
+        supply = false
+      }
+    })
+  }
+
+  function claimRewards() {
+    dispatch.hookOnce('C_LOAD_TOPO_FIN', 1, event => {
       setTimeout(function() {
         if (flame) {
           command.message(' (Club-Rewards) Claiming Dragon\'s Flame from TERA Club bar.')
@@ -27,20 +50,7 @@ module.exports = function ClubRewards(dispatch) {
         } else {
           command.message(' (Club-Rewards) TERA Club Supplies has been claimed already.')
         }
-      }, 20000)
-    }
-  })
-
-  dispatch.hook('S_PCBANGINVENTORY_DATALIST', 1, event => {
-    if (event.inventory[3].amount == 1) {
-      flame = true
-    } else {
-      flame = false
-    }
-    if (event.inventory[6].amount == 1) {
-      supply = true
-    } else {
-      supply = false
-    }
-  })
+      }, delay)
+    })
+  }
 }
