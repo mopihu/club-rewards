@@ -1,56 +1,44 @@
 const Command = require('command')
 const config = require('./config.json')
+const _ = require('lodash')
 
 module.exports = function ClubRewards(dispatch) {
   const command = Command(dispatch)
 
-  let playerNames = config.names.slice()
-  let delay = config.delay
-  let flame = false
-  let supply = false
+  const rewards = {
+    3: "Dragon's Flame",
+    6: "TERA Club Supplies"
+  }
 
-  dispatch.hook('S_LOGIN', 9, event => {
-    if (playerNames.includes(event.name)) {
-      checkRewards()
-      claimRewards()
-    }
+  let playerName
+  let playerNames = config.names.slice()
+  let isReady = false
+
+  dispatch.hook('S_LOGIN', 10, (event) => {
+    playerName = event.name
   })
 
-  function checkRewards() {
-    dispatch.hookOnce('S_PCBANGINVENTORY_DATALIST', 1, event => {
-      if (event.inventory[3].amount == 1) {
-        flame = true
-      } else {
-        flame = false
-      }
-      if (event.inventory[6].amount == 1) {
-        supply = true
-      } else {
-        supply = false
-      }
-    })
-  }
+  dispatch.hook('S_LOAD_TOPO', 3, (event) => {
+    isReady = false
+  })
 
-  function claimRewards() {
-    dispatch.hookOnce('C_LOAD_TOPO_FIN', 1, event => {
-      setTimeout(function() {
-        if (flame) {
-          command.message(' (Club-Rewards) Claiming Dragon\'s Flame from TERA Club bar.')
-          dispatch.toServer('C_PCBANGINVENTORY_USE_SLOT', 1, {
-            slot: 3
-          })
-        } else {
-          command.message(' (Club-Rewards) Dragon\'s Flame has been claimed already.')
-        }
-        if (supply) {
-          command.message(' (Club-Rewards) Claiming TERA Supplies from TERA Club bar.')
-          dispatch.toServer('C_PCBANGINVENTORY_USE_SLOT', 1, {
-            slot: 6
-          })
-        } else {
-          command.message(' (Club-Rewards) TERA Club Supplies has been claimed already.')
-        }
-      }, delay)
+  dispatch.hook('C_LOAD_TOPO_FIN', 1, (event) => {
+    isReady = true
+  })
+
+  dispatch.hook('S_PCBANGINVENTORY_DATALIST', 1, (event) => {
+    if (!playerNames.includes(playerName) || !isReady) return
+    event.inventory.forEach(function(item, index) {
+      if (rewards[item.slot] && item.amount == 1) {
+        claimRewards(item.slot)
+      }
     })
-  }
+  })
+
+  const claimRewards = _.debounce(function(slot) {
+    command.message(' (Club-Rewards) Claiming ' + rewards[slot] + ' from TERA Club bar.')
+    dispatch.send('C_PCBANGINVENTORY_USE_SLOT', 1, {
+      slot: slot
+    })
+  }, 1000)
 }
