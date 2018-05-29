@@ -2,7 +2,7 @@
   "files": {
     "index.js": "04c131bb20b5c5e7d7c242a80f6c96028d460803605f0e799fee7aca35526572",
     "module.json": "c58feed1de52d8c02d3324f690c43522b720a9cc5ce464b281fefca247622e11",
-    "config.json": {"overwrite": false,"hash": "0c6b5130e1939e1f76914ec5785f9386010db9ba97ef411acc7368520a636285"},
+    "config.json": {"overwrite": false,"hash": "0c6b5130e1939e1f76914ec5785f9386010db9ba97ef411acc7368520a636285"}
   },
   "defs": {
     "S_LOGIN": 10,
