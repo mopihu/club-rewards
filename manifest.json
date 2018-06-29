@@ -2,7 +2,7 @@
 	"files": {
 		"config.json": "311ca584d1623d15b279fe544d99c55e8ca1a6ec0a95280c51a178de4e688f4e",
 		"index.js": "62cb9f29fc50b67443255ce4a78939812e2e41630004dcb7aac69cff2b810bc7",
-		"module.json": "7217cb58578a161720ad5b65647d55a18de94ddbfd5bb297971e32b8459b978b"
+		"module.json": "5d7c972a6eab0508f60281edf007a2c0851e0eb13017b884e0585ed6925cb4cb"
 	},
 	"defs": {
 		"C_LOAD_TOPO_FIN": 1,
