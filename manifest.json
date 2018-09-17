@@ -4,14 +4,11 @@
 			"overwrite": false,
 			"hash": "311ca584d1623d15b279fe544d99c55e8ca1a6ec0a95280c51a178de4e688f4e"
 		},
-		"index.js": "62cb9f29fc50b67443255ce4a78939812e2e41630004dcb7aac69cff2b810bc7",
-		"module.json": "5d7c972a6eab0508f60281edf007a2c0851e0eb13017b884e0585ed6925cb4cb"
+		"index.js": "59739a3a0550636253be195356966a81f8c7ecfe0d0d408efca4d9a7882ee69d",
+		"module.json": "1dc51b77f9550d377b281927ce586391cd4c9debd5cd8085a9d5b4884f1bd3b8"
 	},
 	"defs": {
-		"C_LOAD_TOPO_FIN": 1,
 		"C_PCBANGINVENTORY_USE_SLOT": 1,
-		"S_LOAD_TOPO": 3,
-		"S_LOGIN": 10,
 		"S_PCBANGINVENTORY_DATALIST": 1
 	}
 }

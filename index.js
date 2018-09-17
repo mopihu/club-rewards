@@ -1,44 +1,36 @@
-const Command = require('command')
-const config = require('./config.json')
-const _ = require('lodash')
+const config = require('./config.json');
+const _ = require('lodash');
 
-module.exports = function ClubRewards(dispatch) {
-  const command = Command(dispatch)
-
+module.exports = function ClubRewards(mod) {
   const rewards = {
-    3: "Dragon's Flame",
-    6: "TERA Club Supplies"
-  }
+    2: "Dragon's Flame",
+    5: "TERA Club Supplies",
+  };
 
-  let playerName
-  let playerNames = config.names.slice()
-  let isReady = false
+  let playerNames = config.names.slice();
+  let isReady = false;
 
-  dispatch.hook('S_LOGIN', 10, (event) => {
-    playerName = event.name
-  })
+  mod.game.on('enter_loading_screen', () => {
+    isReady = false;
+  });
 
-  dispatch.hook('S_LOAD_TOPO', 3, (event) => {
-    isReady = false
-  })
+  mod.game.on('leave_loading_screen', () => {
+    isReady = true;
+  });
 
-  dispatch.hook('C_LOAD_TOPO_FIN', 1, (event) => {
-    isReady = true
-  })
-
-  dispatch.hook('S_PCBANGINVENTORY_DATALIST', 1, (event) => {
-    if (!playerNames.includes(playerName) || !isReady) return
+  mod.hook('S_PCBANGINVENTORY_DATALIST', 1, event => {
+    if (!playerNames.includes(mod.game.me.name) || !isReady) return;
     event.inventory.forEach(function(item, index) {
       if (rewards[item.slot] && item.amount == 1) {
-        claimRewards(item.slot)
+        claimRewards(item.slot);
       }
-    })
-  })
+    });
+  });
 
   const claimRewards = _.debounce(function(slot) {
-    command.message(' (Club-Rewards) Claiming ' + rewards[slot] + ' from TERA Club bar.')
-    dispatch.send('C_PCBANGINVENTORY_USE_SLOT', 1, {
+    mod.command.message('Claiming ' + rewards[slot] + ' from TERA Club bar.');
+    mod.send('C_PCBANGINVENTORY_USE_SLOT', 1, {
       slot: slot
-    })
-  }, 1000)
+    });
+  }, 1000);
 }
